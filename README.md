@@ -8,7 +8,7 @@ To use the bot, you will need python and
 
 Get a copy of the code by running
 
-    $ git clone git://github.com/kragniz/reddit-auto-respond.git
+    $ git clone git://github.com/aonic/reddit-auto-respond.git
 
 Run the bot with
     
@@ -61,6 +61,3 @@ Some points about the config:
     3. Any subject beginning with `hello`
     4. Any subject with one or more characters
 
-#Licence
-This code is licenced under the terms of the WTFPLv2. See the `COPYING` file for
-more details.
