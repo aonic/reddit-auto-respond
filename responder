@@ -11,6 +11,7 @@ import re
 import time
 from collections import OrderedDict
 from os.path import abspath
+from praw.models import Message
 
 class Responder(object):
     def __init__(self, configFilename = 'config.json'):
@@ -31,22 +32,26 @@ class Responder(object):
         self.messages = []
 
     def has_messages(self):
-        self.messages = [m for m in self._r.get_unread()]
+        self.messages = []
+        for item in self._r.inbox.unread(limit=None):
+            if isinstance(item, Message):
+                self.messages.append(item)
+        
         return len(self.messages) > 0
 
     def respond(self, message):
         for r, messageText in self.actions.iteritems():
-            if r.match(message.subject):
+            if r.match(message.body):
                 self.log('New message from:', message.author)
                 self.log('Subject:', message.subject)
-                message.reply(messageText)
-                message.mark_as_read()
+                self.log('Body:', message.body)
+                #message.reply(messageText)
+                #message.mark_as_read()
                 break
 
     def respond_to_messages(self):
         for m in self.messages:
-            if not m.was_comment:
-                self.respond(m)
+            self.respond(m)
 
     def log(self, *args):
         print '\033[94m' + time.asctime() + '\033[0m',
