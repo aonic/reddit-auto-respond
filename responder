@@ -25,10 +25,12 @@ class Responder(object):
         for r, message in config['responses'].iteritems():
             self.actions[re.compile(r, re.IGNORECASE)] = message
         self.log('Loaded', len(self.actions), 'actions')
-
-        self._r = praw.Reddit('Auto responder bot by /u/kragniz')
-        self._r.login(self.username, self.password)
-
+        
+        self._r = praw.Reddit(client_id=config['client_id'],
+                     client_secret=config['secret'],
+                     user_agent='Auto responder bot by /u/aonic',
+                     password=self.password,
+                     username=self.username)
         self.messages = []
 
     def has_messages(self):
